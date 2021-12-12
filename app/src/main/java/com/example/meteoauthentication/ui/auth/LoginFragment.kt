@@ -30,7 +30,7 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
         binding.toRegisterTextView.setOnClickListener{
             Toast.makeText(context, "Register form", Toast.LENGTH_SHORT).show()
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.activityFragment, registerFragment)?.commit()
+            transaction?.replace(R.id.activityFragmentContainer, registerFragment)?.commit()
         }
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {

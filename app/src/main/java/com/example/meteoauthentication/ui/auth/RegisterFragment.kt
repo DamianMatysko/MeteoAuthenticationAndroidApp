@@ -2,15 +2,12 @@ package com.example.meteoauthentication.ui.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.network.Resource
-import com.example.meteoauthentication.databinding.FragmentLoginBinding
 import com.example.meteoauthentication.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +25,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         binding.toLoginTextView.setOnClickListener {
             Toast.makeText(context, "Login form", Toast.LENGTH_SHORT).show()
             val transaction = fragmentManager?.beginTransaction()
-            transaction?.replace(R.id.activityFragment, loginFragment)?.commit()
+            transaction?.replace(R.id.activityFragmentContainer, loginFragment)?.commit()
         }
 
         binding.buttonRegister.setOnClickListener {
@@ -40,7 +37,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 is Resource.Success -> {
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                     val transaction = fragmentManager?.beginTransaction()
-                    transaction?.replace(R.id.activityFragment, loginFragment)?.commit()
+                    transaction?.replace(R.id.activityFragmentContainer, loginFragment)?.commit()
                 }
                 is Resource.Failure -> println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyFailure ${it}")
             }

@@ -3,11 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_home"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/stations">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/stations"
         android:name="com.example.meteoauthentication.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/explore"
+        android:name="com.example.meteoauthentication.ui.home.ExploreFragment"
+        android:label="fragment_explore"
+        tools:layout="@layout/fragment_explore" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.meteoauthentication.ui.home.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
