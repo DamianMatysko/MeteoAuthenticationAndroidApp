@@ -18,11 +18,12 @@ class AuthRepository @Inject constructor(
         api.login(LocalLoginRequest(username, password))
     }
 
-//    suspend fun saveAccessTokens(accessToken: String, refreshToken: String) {
-//        preferences.saveAccessTokens(accessToken, refreshToken)
-//    }
     suspend fun saveToken(token: String) {
         preferences.saveToken(token)
+    }
+
+    suspend fun saveEmail(email: String) {
+        preferences.saveEmail(email)
     }
 
     suspend fun register(

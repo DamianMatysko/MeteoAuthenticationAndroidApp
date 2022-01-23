@@ -20,5 +20,5 @@ interface AuthApi : BaseApi {
     suspend fun login(@Body localLoginRequest: LocalLoginRequest): Token
 
     @POST("api/authentication/register")
-    suspend fun register(@Body localLoginRequest: LocalRegisterRequest):String
+    suspend fun register(@Body localLoginRequest: LocalRegisterRequest):String //todo(change string)
 }

@@ -33,24 +33,23 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
             transaction?.replace(R.id.activityFragmentContainer, registerFragment)?.commit()
         }
 
+        binding.buttonLogin.setOnClickListener {
+            login()
+        }
+
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
-//                        viewModel.saveAccessTokens(
-//                            it.value.user.access_token!!,
-//                            it.value.user.refresh_token!!
-//                        )
                         viewModel.saveToken(
                             it.value.jwt
                         )
-
-
+                        viewModel.saveEmail(
+                            binding.editEmail.text.toString().trim()
+                        )
                         println("xxxxxxxxxxxxxxxxxxxSuccess")
-
                         requireActivity().startNewActivity(HomeActivity::class.java)
                     }
-
                 }
               is Resource.Failure -> println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyFailure ${it}") // todo  handleApiError(it) { login() }
             }
@@ -60,10 +59,6 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
 //            val email = binding.editEmail.text.toString().trim()
 //            binding.buttonLogin.enable(email.isNotEmpty() && it.toString().isNotEmpty())
 //        }
-
-        binding.buttonLogin.setOnClickListener {
-            login()
-        }
     }
 
     private fun login() {

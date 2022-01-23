@@ -31,17 +31,23 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
             preferences[JWT_TOKEN]
         }
 
-    suspend fun saveAccessTokens(accessToken: String, refreshToken: String) {
-        appContext.dataStore.edit { preferences ->
-            preferences[ACCESS_TOKEN] = accessToken
-            preferences[REFRESH_TOKEN] = refreshToken
+    val email: Flow<String?>
+        get() = appContext.dataStore.data.map { preferences ->
+            preferences[EMAIL]
         }
-    }
+
     suspend fun saveToken(token: String) {
         appContext.dataStore.edit { preferences ->
             preferences[JWT_TOKEN] = token
         }
     }
+
+    suspend fun saveEmail(email: String) {
+        appContext.dataStore.edit { preferences ->
+            preferences[EMAIL] = email
+        }
+    }
+
 
     suspend fun clear() {
         appContext.dataStore.edit { preferences ->
@@ -53,6 +59,7 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
         private val ACCESS_TOKEN = stringPreferencesKey("key_access_token")
         private val REFRESH_TOKEN = stringPreferencesKey("key_refresh_token")
         private val JWT_TOKEN = stringPreferencesKey("key_jwt")
+        private val EMAIL = stringPreferencesKey("email")
     }
 
 }

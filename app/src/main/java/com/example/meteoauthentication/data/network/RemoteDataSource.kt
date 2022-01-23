@@ -2,7 +2,7 @@ package com.example.meteoauthentication.data.network
 
 import android.content.Context
 import com.example.meteoauthentication.BuildConfig
-import okhttp3.Authenticator
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,39 +12,42 @@ import javax.inject.Inject
 class RemoteDataSource @Inject constructor() {
 
     companion object {
-        private const val BASE_URL = "http://192.168.1.2:9090"
+        //private const val BASE_URL = "http://192.168.1.2:9090" todo(dynamic IP problem)
+        private const val BASE_URL = "http://192.168.1.146:9090"
     }
 
     fun <Api> buildApi(
         api: Class<Api>,
         context: Context
     ): Api {
-        val authenticator = TokenAuthenticator(context, buildTokenApi())
+        val interceptor = TokenInterceptor(context)
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getRetrofitClient(authenticator))
+            .client(getRetrofitClient(interceptor, context))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)
     }
 
-    private fun buildTokenApi(): TokenRefreshApi {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(getRetrofitClient())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(TokenRefreshApi::class.java)
-    }
+//    private fun buildTokenApi(): TokenRefreshApi { todo
+//        return Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .client(getRetrofitClient())
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//            .create(TokenRefreshApi::class.java)
+//    }
 
-    private fun getRetrofitClient(authenticator: Authenticator? = null): OkHttpClient {
+    private fun getRetrofitClient(authenticator: Interceptor? = null, context: Context): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("Accept", "application/json")
-                }.build())
-            }.also { client ->
-                authenticator?.let { client.authenticator(it) }
+                }.build())}
+
+            .addInterceptor(TokenInterceptor(context))
+            .also { client ->
+
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)

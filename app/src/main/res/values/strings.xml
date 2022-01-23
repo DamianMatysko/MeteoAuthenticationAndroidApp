@@ -15,4 +15,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="explore">explore</string>
     <string name="stations">stations</string>
+    <string name="LOGOUT">LOGOUT</string>
+    <string name="update_user">UPDATE USER</string>
 </resources>

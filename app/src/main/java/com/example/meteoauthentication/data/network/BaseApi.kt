@@ -5,5 +5,5 @@ import retrofit2.http.POST
 
 interface BaseApi {
     @POST("logout")
-    suspend fun logout(): ResponseBody
+    suspend fun logout(): ResponseBody //todo(delete)
 }

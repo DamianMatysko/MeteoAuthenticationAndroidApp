@@ -1,6 +1,6 @@
 package com.example.meteoauthentication.data.responses
 
-data class User(
+data class User( //todo(delete/ repair )
     val access_token: String?,
     val refresh_token: String?,
     val created_at: String,
