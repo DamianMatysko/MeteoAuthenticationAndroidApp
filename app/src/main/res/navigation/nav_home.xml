@@ -9,7 +9,11 @@
         android:id="@+id/stations"
         android:name="com.example.meteoauthentication.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_stations_to_stationDetailFragment"
+            app:destination="@id/stationDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/explore"
         android:name="com.example.meteoauthentication.ui.home.ExploreFragment"
@@ -20,4 +24,14 @@
         android:name="com.example.meteoauthentication.ui.home.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/stationDetailFragment"
+        android:name="com.example.meteoauthentication.ui.home.StationDetailFragment"
+        android:label="fragment_station_detail"
+        tools:layout="@layout/fragment_station_detail" >
+        <argument
+            android:name="titile"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

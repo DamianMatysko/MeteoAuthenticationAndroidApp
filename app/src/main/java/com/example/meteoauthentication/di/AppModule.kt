@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.meteoauthentication.data.network.AuthApi
 import com.example.meteoauthentication.data.network.RemoteDataSource
 import com.example.meteoauthentication.data.network.UserApi
+import com.example.meteoauthentication.ui.home.Communicator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,6 +34,11 @@ object AppModule {
         return remoteDataSource.buildApi(UserApi::class.java, context)
     }
 
+    @Singleton
+    @Provides
+    fun provideCommunicator(): Communicator {
+        return Communicator()
+    }
 
 
 }

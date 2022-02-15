@@ -5,42 +5,51 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.data.repository.UserRepository
-import com.example.meteoauthentication.data.responses.LoginResponse
 import com.example.meteoauthentication.model.GetUserStationResponse
+import com.example.meteoauthentication.model.MeasuredValue
+import com.example.meteoauthentication.model.Token
+import com.example.meteoauthentication.model.User
 import com.example.meteoauthentication.ui.base.BaseViewModel
-import com.google.gson.JsonArray
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val communicator: Communicator,
     private val repository: UserRepository
 ) : BaseViewModel(repository) {
 
+    private val _getUserResponse: MutableLiveData<Resource<User>> = MutableLiveData()
+    val getUserResponse: LiveData<Resource<User>>
+        get() = _getUserResponse
 
-    private val _user: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()
-//    val user: LiveData<Resource<LoginResponse>>
-//        get() = _user
-
-//    todo(user/me isn't working in api)
-//    fun getUser() = viewModelScope.launch {
-//        _user.value = Resource.Loading
-//        _user.value = repository.getUser()
-//    }
-
-
-    private val _updateResponse: MutableLiveData<Resource<String>> = MutableLiveData()
-    val updateResponse: LiveData<Resource<String>>
+    private val _updateResponse: MutableLiveData<Resource<User>> = MutableLiveData()
+    val updateResponse: LiveData<Resource<User>>
         get() = _updateResponse
 
-    private val _getUserStationsResponse: MutableLiveData<Resource<ArrayList<GetUserStationResponse>>> = MutableLiveData()
+    private val _addStationResponse: MutableLiveData<Resource<GetUserStationResponse>> =
+        MutableLiveData()
+    val addStationResponse: LiveData<Resource<GetUserStationResponse>>
+        get() = _addStationResponse
+
+    private val _getUserStationsResponse: MutableLiveData<Resource<ArrayList<GetUserStationResponse>>> =
+        MutableLiveData()
     val getUserStationsResponse: LiveData<Resource<ArrayList<GetUserStationResponse>>>
         get() = _getUserStationsResponse
 
-//    private val _getUserStationsResponse: MutableLiveData<Resource<JsonArray>> = MutableLiveData()
-//    val getUserStationsResponse: LiveData<Resource<JsonArray>>
-//        get() = _getUserStationsResponse
+    private val _getStationTokenResponse: MutableLiveData<Resource<Token>> = MutableLiveData()
+    val getStationTokenResponse: LiveData<Resource<Token>>
+        get() = _getStationTokenResponse
+
+    private val _deleteStationResponse: MutableLiveData<Resource<Any>> = MutableLiveData()
+    val deleteStationResponse: LiveData<Resource<Any>>
+        get() = _deleteStationResponse
+
+    private val _getMeasuredValuesResponse: MutableLiveData<Resource<ArrayList<MeasuredValue>>> =
+        MutableLiveData()
+    val getMeasuredValuesResponse: LiveData<Resource<ArrayList<MeasuredValue>>>
+        get() = _getMeasuredValuesResponse
 
     fun updateUser(
         newUsername: String,
@@ -48,13 +57,51 @@ class HomeViewModel @Inject constructor(
         newEmail: String,
         newCity: String
     ) = viewModelScope.launch {
-        repository.updateUser(newUsername, newPassword, newEmail, newCity)
+        //  val resolute = repository.updateUser(newUsername, newPassword, newEmail, newCity)
+        _updateResponse.value = Resource.Loading
+        _updateResponse.value = repository.updateUser(newUsername, newPassword, newEmail, newCity)
+    }
+
+    fun addStation(
+        title: String,
+        destination: String,
+        modelDescription: String,
+        phone: Number?
+    ) = viewModelScope.launch {
+        _addStationResponse.value = Resource.Loading
+        _addStationResponse.value =
+            repository.addStation(title, destination, modelDescription, phone)
     }
 
     fun getUserStations() = viewModelScope.launch {
-        val resolute =repository.getUserStations()
+        val resolute = repository.getUserStations()
         _getUserStationsResponse.value = resolute
     }
 
 
+    fun setSelectedUserStation(station: GetUserStationResponse) {
+        communicator.getUserStationResponse = station
+    }
+
+    fun getSelectedUserStation() = communicator.getUserStationResponse
+
+    fun getStationToken(id: Number) = viewModelScope.launch {
+        _getStationTokenResponse.value = Resource.Loading
+        _getStationTokenResponse.value = repository.getStationToken(id)
+    }
+
+    fun deleteStation(id: Number) = viewModelScope.launch {
+        _deleteStationResponse.value = Resource.Loading
+        _deleteStationResponse.value = repository.deleteStation(id)
+    }
+
+    fun getMeasuredValuesById(id: Number) = viewModelScope.launch {
+        _getMeasuredValuesResponse.value = Resource.Loading
+        _getMeasuredValuesResponse.value = repository.getMeasuredValuesById(id)
+    }
+
+    fun getUser() = viewModelScope.launch {
+        _getUserResponse.value = Resource.Loading
+        _getUserResponse.value = repository.getUser()
+    }
 }

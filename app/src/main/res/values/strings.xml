@@ -17,4 +17,16 @@
     <string name="stations">stations</string>
     <string name="LOGOUT">LOGOUT</string>
     <string name="update_user">UPDATE USER</string>
+    <string name="generate_token">GENERATE TOKEN</string>
+    <string name="registrationtimetextview">registrationTimeTextView</string>
+    <string name="modeldescriptiontextview">modelDescriptionTextView</string>
+    <string name="destinationtextview">destinationTextView</string>
+    <string name="titletextview">titleTextView</string>
+    <string name="cancel">Cancel</string>
+    <string name="copy_to_clipboard">Copy To Clipboard</string>
+    <string name="upgrade_info">UPGRADE INFO</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="city">City</string>
+    <string name="email">Email</string>
 </resources>

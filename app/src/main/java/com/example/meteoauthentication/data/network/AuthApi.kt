@@ -4,6 +4,7 @@ import com.example.meteoauthentication.model.LocalLoginRequest
 import com.example.meteoauthentication.model.LocalRegisterRequest
 import com.example.meteoauthentication.model.Token
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.POST
 
 interface AuthApi : BaseApi {
@@ -21,4 +22,9 @@ interface AuthApi : BaseApi {
 
     @POST("api/authentication/register")
     suspend fun register(@Body localLoginRequest: LocalRegisterRequest):String //todo(change string)
+
+    @POST("oauth2/authorization/google")
+    suspend fun oauthSignIn(@Body string: String): Token
+
+
 }

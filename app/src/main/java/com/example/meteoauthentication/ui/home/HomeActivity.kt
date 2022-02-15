@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.UserPreferences
+import com.example.meteoauthentication.model.GetUserStationResponse
 import com.example.meteoauthentication.ui.auth.AuthActivity
 import com.example.meteoauthentication.ui.startNewActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,4 +46,5 @@ class HomeActivity : AppCompatActivity() {
         userPreferences.clear()
         startNewActivity(AuthActivity::class.java)
     }
+
 }

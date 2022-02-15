@@ -1,60 +1,103 @@
 package com.example.meteoauthentication.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.meteoauthentication.R
+import com.example.meteoauthentication.data.network.Resource
+import com.example.meteoauthentication.databinding.FragmentExploreBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val TAG = "ExploreFragment"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ExploreFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ExploreFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+@AndroidEntryPoint
+class ExploreFragment : Fragment(R.layout.fragment_explore) {
+    private lateinit var binding: FragmentExploreBinding
+    private val viewModel by viewModels<HomeViewModel>()
+    private val listFragment = ListFragment()
+    private val grafFragment = GrafFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        val view = inflater.inflate(R.layout.fragment_explore, container, false)
+
+        binding = FragmentExploreBinding.bind(view)
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
+
+        val fragmentAdapter = TabFragmentAdapter(parentFragmentManager)
+
+
+        fragmentAdapter.addFragment(listFragment, "List")
+        fragmentAdapter.addFragment(grafFragment, "Graf")
+
+        viewPager.adapter = fragmentAdapter
+        tabLayout.setupWithViewPager(viewPager)
+
+        getStationsName()
+        return view
+    }
+    
+    private fun getStationsName() {
+        viewModel.getUserStationsResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    lifecycleScope.launch {
+                        val spinner: Spinner = binding.stationSpinner
+                        val arrayList: ArrayList<String> = ArrayList()
+                        val stationsArrayList = it.value
+                        for (i in stationsArrayList) {
+                            arrayList.add(i.title)
+                        }
+                        val arrayAdapter = context?.let { it1 ->
+                            ArrayAdapter(
+                                it1,
+                                android.R.layout.simple_spinner_item,
+                                arrayList
+                            )
+                        }
+
+                        spinner.adapter = arrayAdapter
+
+                        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                listFragment.setStationId(stationsArrayList[position].id)
+                                grafFragment.setStationId(stationsArrayList[position].id)
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+
+                        }
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Failure -> {
+                    Toast.makeText(context, "Failure", Toast.LENGTH_SHORT).show()
+                    println("Failure $it")
+                }
+                else -> {}
+            }
+        }
+        viewModel.getUserStations()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ExploreFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ExploreFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }

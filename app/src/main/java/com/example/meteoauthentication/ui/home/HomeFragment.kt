@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoauthentication.R
@@ -30,38 +32,37 @@ class HomeFragment : Fragment(R.layout.fragment_home), PostClickHandler {
     private var arrayList: ArrayList<GetUserStationResponse> = arrayListOf()
     private var adapter: StationRecyclerAdapter? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        initRecyclerView(view)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        getUserStations()
+        initRecyclerView(view)
 
-        adapter = StationRecyclerAdapter(arrayList, this)
-        recyclerView.adapter = adapter
-        Log.d(TAG, "getUserStations: $arrayList")
+        binding.AddButton.setOnClickListener{
+            val dialog = AddStationDialogFragment.newInstance()
+            dialog.show(parentFragmentManager, "addStationDialog")
+        }
+        return view
     }
 
     private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.stationsRecyclerview)
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        // getUserStations() private fun getUserStations() {
-        viewModel.getUserStationsResponse.observe(viewLifecycleOwner, {
+        adapter = StationRecyclerAdapter(arrayList, this)
+        recyclerView.adapter = adapter
+        Log.d(TAG, "getUserStations: $arrayList")
+    }
+
+    private fun getUserStations() {
+        viewModel.getUserStationsResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
-                        //recyclerView.adapter = StationRecyclerAdapter(it.value, this)
-
-                        arrayList.addAll(it.value)
-                         Log.d(TAG, "inside observe: $arrayList")
+                        adapter?.updateList(it.value)
 
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                         println("Success $it")
@@ -73,12 +74,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), PostClickHandler {
                 }
                 else -> {}
             }
-        })
+        }
         viewModel.getUserStations()
     }
 
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        binding = FragmentHomeBinding.bind(view)
+//    }
+
     override fun clickedPostItem(getUserStationResponse: GetUserStationResponse) {
-        Log.d(TAG, "clickedPostItem: ")
+        viewModel.setSelectedUserStation(getUserStationResponse)
+
+        Log.d(TAG, "clickedPostItem: ${getUserStationResponse.id} ")
+        val bundle = bundleOf("title" to getUserStationResponse.id.toInt())
+
+        findNavController().navigate(R.id.stationDetailFragment, bundle)
     }
 
 }

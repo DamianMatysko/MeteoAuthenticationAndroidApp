@@ -29,14 +29,6 @@ class RemoteDataSource @Inject constructor() {
             .create(api)
     }
 
-//    private fun buildTokenApi(): TokenRefreshApi { todo
-//        return Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(getRetrofitClient())
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//            .create(TokenRefreshApi::class.java)
-//    }
 
     private fun getRetrofitClient(authenticator: Interceptor? = null, context: Context): OkHttpClient {
         return OkHttpClient.Builder()
