@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.databinding.FragmentListBinding
-import com.example.meteoauthentication.databinding.FragmentRegisterBinding
 import com.example.meteoauthentication.model.MeasuredValue
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
@@ -27,11 +26,6 @@ class ListFragment : Fragment(R.layout.fragment_list), MeasuredValuesPostClickHa
     private var arrayList: ArrayList<MeasuredValue> = arrayListOf()
     private var adapter: MeasuredValuesRecyclerAdapter? = null
 
-    private var stationId by Delegates.observable(0) { property, oldValue, newValue ->
-        Log.d(TAG, "New Value $newValue")
-        Log.d(TAG, "Old Value $oldValue")
-        viewModel.getMeasuredValuesById(newValue)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,22 +33,15 @@ class ListFragment : Fragment(R.layout.fragment_list), MeasuredValuesPostClickHa
     ): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         binding = FragmentListBinding.bind(view)
-        viewModel.getMeasuredValuesResponse.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    Log.d(TAG, "it: ${it.value.toString()}")
-                    arrayList.clear()
-                    arrayList = it.value
-                    initRecyclerView(view)
-                }
-            }
-        }
 
+        initRecyclerView(view)
         return view
     }
 
-    fun setStationId(id: Number) {
-        stationId = id.toInt()
+    fun setStationMeasuredValues(measuredValues: ArrayList<MeasuredValue>) {
+        arrayList.clear()
+        arrayList = measuredValues
+        adapter?.updateList(arrayList)
     }
 
     private fun initRecyclerView(view: View) {

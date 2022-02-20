@@ -36,16 +36,13 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
     private lateinit var binding: FragmentGrafBinding
     private val viewModel by viewModels<HomeViewModel>()
     private var arrayList: ArrayList<MeasuredValue> = arrayListOf()
-
     private lateinit var lineChart: LineChart
 
 
-    private var stationId by Delegates.observable(0) { property, oldValue, newValue ->
-        viewModel.getMeasuredValuesById(newValue)
-    }
-
-    fun setStationId(id: Number) {
-        stationId = id.toInt()
+    fun setStationMeasuredValues(measuredValues: ArrayList<MeasuredValue>) {
+        arrayList.clear()
+        arrayList = measuredValues
+        setDataToLineChart(arrayList)
     }
 
     override fun onCreateView(
@@ -56,16 +53,6 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         binding = FragmentGrafBinding.bind(view)
         lineChart = binding.chart
         initLineChart()
-        viewModel.getMeasuredValuesResponse.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    arrayList.clear()
-                    arrayList = it.value
-                    setDataToLineChart(it.value)
-                }
-            }
-        }
-
 
         return view
     }
