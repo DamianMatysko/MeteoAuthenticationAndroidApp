@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,7 +54,7 @@ class ListFragment : Fragment(R.layout.fragment_list), MeasuredValuesPostClickHa
     }
 
     override fun clickedMeasuredPostItem(measuredValue: MeasuredValue) {
-        TODO("Not yet implemented")
+        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
         //        viewModel.setSelectedUserStation(getUserStationResponse)
         //        Log.d(TAG, "clickedPostItem: ${getUserStationResponse.id} ")
         //        val bundle = bundleOf("title" to getUserStationResponse.id.toInt())

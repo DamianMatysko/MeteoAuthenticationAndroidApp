@@ -4,15 +4,16 @@ import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.meteoauthentication.R
-import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.databinding.FragmentGrafBinding
 import com.example.meteoauthentication.model.MeasuredValue
 import com.github.mikephil.charting.animation.Easing
@@ -26,8 +27,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
-
 
 private const val TAG = "GrafFragment"
 
@@ -38,13 +37,6 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
     private var arrayList: ArrayList<MeasuredValue> = arrayListOf()
     private lateinit var lineChart: LineChart
 
-
-    fun setStationMeasuredValues(measuredValues: ArrayList<MeasuredValue>) {
-        arrayList.clear()
-        arrayList = measuredValues
-        setDataToLineChart(arrayList)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,8 +45,14 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         binding = FragmentGrafBinding.bind(view)
         lineChart = binding.chart
         initLineChart()
-
         return view
+    }
+
+    fun setStationMeasuredValues(measuredValues: ArrayList<MeasuredValue>) {
+        arrayList.clear()
+        arrayList = measuredValues
+        // setDataToLineChart(arrayList)//todo
+        onSpinnerSelected(arrayList)
     }
 
     private fun initLineChart() {
@@ -79,9 +77,7 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         //xAxis.labelRotationAngle = +90f
     }
 
-
     inner class MyAxisFormatter : IndexAxisValueFormatter() {
-
 
         @RequiresApi(Build.VERSION_CODES.N)
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
@@ -98,11 +94,9 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         //now draw bar chart with dynamic data
         val entries: ArrayList<Entry> = ArrayList()
 
-
         //you can replace this data object with  your custom object
         for (i in arrayList.indices) {
             val measuredValue = arrayList[i]
-            //entries.add(Entry(i.temperature.toFloat(), i.humidity.toFloat()))
             entries.add(Entry(i.toFloat(), measuredValue.humidity.toFloat()))
         }
 
@@ -120,6 +114,94 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         val formatter = SimpleDateFormat("hh:mm")
         val dateStr = formatter.format(date)
         return dateStr
+    }
+
+    private fun onSpinnerSelected(arrayList: ArrayList<MeasuredValue>) {
+        val spinner: Spinner = binding.grafSpinner
+        val nameOfMeasuredValue = ArrayList<String>()
+        nameOfMeasuredValue.add("humidity")
+        nameOfMeasuredValue.add("temperature")
+        nameOfMeasuredValue.add("air quality")
+        nameOfMeasuredValue.add("wind speed")
+        nameOfMeasuredValue.add("wind gusts")
+        nameOfMeasuredValue.add("wind direction")
+        nameOfMeasuredValue.add("rainfall")
+
+        val arrayAdapter = context?.let { it1 ->
+            ArrayAdapter(
+                it1,
+                android.R.layout.simple_spinner_item,
+                nameOfMeasuredValue
+            )
+        }
+
+        spinner.adapter = arrayAdapter
+
+        spinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    //now draw bar chart with dynamic data
+                    val entries: ArrayList<Entry> = ArrayList()
+
+                    //you can replace this data object with  your custom object
+                    when (position) {
+                        0 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.humidity.toFloat()))
+                            }
+                        }
+                        2 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.air_quality.toFloat()))
+                            }
+                        }
+                        3 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.wind_speed.toFloat()))
+                            }
+                        }
+                        4 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.wind_gusts.toFloat()))
+                            }
+                        }
+                        5 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(
+                                    Entry(i.toFloat(), measuredValue.wind_direction.toFloat())
+                                )
+                            }
+                        }
+                        6 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.rainfall.toFloat()))
+                            }
+                        }
+                        else -> {}
+                    }
+
+
+                    val lineDataSet = LineDataSet(entries, "")
+                    val data = LineData(lineDataSet)
+                    lineChart.data = data
+                    lineChart.invalidate()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
     }
 
 }

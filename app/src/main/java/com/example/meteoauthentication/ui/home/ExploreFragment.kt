@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -80,6 +81,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
                             )
                         }
 
+
                         spinner.adapter = arrayAdapter
 
                         spinner.onItemSelectedListener =
@@ -91,13 +93,6 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
                                     id: Long
                                 ) {
                                     viewModel.getMeasuredValuesById(stationsArrayList[position].id)
-
-
-
-
-
-//                                    listFragment.setStationId(stationsArrayList[position].id)
-//                                    grafFragment.setStationId(stationsArrayList[position].id)
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -133,7 +128,6 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
 //        }
 
     }
-
 
     private fun setupViewPager(viewPager: ViewPager2) {
         viewPagerAdapter = ViewPagerAdapter(

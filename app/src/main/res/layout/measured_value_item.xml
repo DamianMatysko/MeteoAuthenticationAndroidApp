@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearMeasuredValuesLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
     <TextView
-
         android:id="@+id/measuredValuesTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="measured values"
-        android:textSize="20dp"
+        android:text="@string/measured_values"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,97 +26,5 @@
         app:layout_constraintBottom_toTopOf="@+id/measuredValuesTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/measurementTime"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="measurementTime"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        tools:layout_editor_absoluteY="16dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/humidity"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:layout_marginStart="10dp"-->
-    <!--        android:text="humidity"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/measurementTime"-->
-    <!--        tools:layout_editor_absoluteY="16dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/temperature"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="temperature"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="8dp"-->
-    <!--        tools:layout_editor_absoluteY="59dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/air_quality"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="air_quality"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="162dp"-->
-    <!--        tools:layout_editor_absoluteY="59dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/wind_speed"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="wind_speed"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="8dp"-->
-    <!--        tools:layout_editor_absoluteY="102dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/wind_gusts"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="wind_gusts"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="8dp"-->
-    <!--        tools:layout_editor_absoluteY="148dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/wind_direction"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="wind_direction"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="154dp"-->
-    <!--        tools:layout_editor_absoluteY="102dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/rainfall"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="5dp"-->
-    <!--        android:text="rainfall"-->
-    <!--        android:textSize="25sp"-->
-    <!--        android:textStyle="bold"-->
-    <!--        tools:layout_editor_absoluteX="162dp"-->
-    <!--        tools:layout_editor_absoluteY="148dp" />-->
-
-    <!--    <View-->
-    <!--        android:id="@+id/view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:layout_margin="8dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/measuredValuesTextView"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-    <!--    &lt;!&ndash;        app:layout_constraintBottom_toTopOf="@+id/measurementTime"&ndash;&gt;-->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.meteoauthentication.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class MeasuredValuesRecyclerAdapter(
         return arrayList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList:ArrayList<MeasuredValue>) {
         arrayList.clear()
         arrayList.addAll(newList)

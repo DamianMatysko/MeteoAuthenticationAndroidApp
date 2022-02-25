@@ -29,4 +29,5 @@
     <string name="password">Password</string>
     <string name="city">City</string>
     <string name="email">Email</string>
+    <string name="measured_values">measured values</string>
 </resources>
