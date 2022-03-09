@@ -134,6 +134,7 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
                 nameOfMeasuredValue
             )
         }
+        arrayAdapter?.setDropDownViewResource(R.layout.spinner_item)
 
         spinner.adapter = arrayAdapter
 

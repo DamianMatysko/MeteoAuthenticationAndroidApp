@@ -34,7 +34,7 @@ class StationDetailFragment : Fragment(R.layout.fragment_station_detail) {
         val view = inflater.inflate(R.layout.fragment_station_detail, container, false)
         binding = FragmentStationDetailBinding.bind(view) //todo check
 
-        viewModel.getStationTokenResponse.observe(viewLifecycleOwner) {
+        viewModel.getStationAuthorizationResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {

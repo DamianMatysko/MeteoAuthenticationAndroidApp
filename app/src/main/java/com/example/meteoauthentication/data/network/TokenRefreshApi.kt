@@ -1,14 +1,15 @@
 package com.example.meteoauthentication.data.network
 
-import com.example.meteoauthentication.data.responses.TokenResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.example.meteoauthentication.model.Authorization
+import com.example.meteoauthentication.model.RefreshTokenRequest
+import retrofit2.http.*
 
 interface TokenRefreshApi : BaseApi {
-    @FormUrlEncoded
-    @POST("auth/refresh-token")
+
+    @POST("api/authentication/refreshToken")
     suspend fun refreshAccessToken(
-        @Field("refresh_token") refreshToken: String?
-    ): TokenResponse
+     //   @Header("Authorization") authorization: String?
+      //todo  @Header("refresh_token") authorization: String?
+       @Body refreshTokenRequest: RefreshTokenRequest
+    ): Authorization //TokenResponse
 }

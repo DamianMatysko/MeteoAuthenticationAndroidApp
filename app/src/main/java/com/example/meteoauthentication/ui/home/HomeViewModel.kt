@@ -7,7 +7,7 @@ import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.data.repository.UserRepository
 import com.example.meteoauthentication.model.GetUserStationResponse
 import com.example.meteoauthentication.model.MeasuredValue
-import com.example.meteoauthentication.model.Token
+import com.example.meteoauthentication.model.Authorization
 import com.example.meteoauthentication.model.User
 import com.example.meteoauthentication.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,9 +38,9 @@ class HomeViewModel @Inject constructor(
     val getUserStationsResponse: LiveData<Resource<ArrayList<GetUserStationResponse>>>
         get() = _getUserStationsResponse
 
-    private val _getStationTokenResponse: MutableLiveData<Resource<Token>> = MutableLiveData()
-    val getStationTokenResponse: LiveData<Resource<Token>>
-        get() = _getStationTokenResponse
+    private val _getStationAuthorizationResponse: MutableLiveData<Resource<Authorization>> = MutableLiveData()
+    val getStationAuthorizationResponse: LiveData<Resource<Authorization>>
+        get() = _getStationAuthorizationResponse
 
     private val _deleteStationResponse: MutableLiveData<Resource<Any>> = MutableLiveData()
     val deleteStationResponse: LiveData<Resource<Any>>
@@ -86,8 +86,8 @@ class HomeViewModel @Inject constructor(
     fun getSelectedUserStation() = communicator.getUserStationResponse
 
     fun getStationToken(id: Number) = viewModelScope.launch {
-        _getStationTokenResponse.value = Resource.Loading
-        _getStationTokenResponse.value = repository.getStationToken(id)
+        _getStationAuthorizationResponse.value = Resource.Loading
+        _getStationAuthorizationResponse.value = repository.getStationToken(id)
     }
 
     fun deleteStation(id: Number) = viewModelScope.launch {

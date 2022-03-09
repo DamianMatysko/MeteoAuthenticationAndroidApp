@@ -20,7 +20,14 @@ data class LocalRegisterRequest(
 
 //todo(move to responses)
 
-data class Token(val jwt: String)
+data class  RefreshTokenRequest(
+    val jwt: String?
+)
+
+data class Authorization(
+    val jwt: String,
+    val refreshToken: String
+    )
 
 data class UserUpdate(
     val username: String,

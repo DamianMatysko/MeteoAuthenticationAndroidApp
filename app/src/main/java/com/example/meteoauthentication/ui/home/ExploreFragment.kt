@@ -81,7 +81,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
                             )
                         }
 
-
+                        arrayAdapter?.setDropDownViewResource(R.layout.spinner_item)
                         spinner.adapter = arrayAdapter
 
                         spinner.onItemSelectedListener =

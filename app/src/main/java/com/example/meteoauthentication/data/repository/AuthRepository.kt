@@ -26,6 +26,16 @@ class AuthRepository @Inject constructor(
         preferences.saveToken(token)
     }
 
+    suspend fun saveAccessTokens(access_token: String, refresh_token: String) {
+        preferences.saveAccessTokens(access_token,refresh_token)
+    }
+
+
+
+     fun isUserLogged() : Boolean {
+       return preferences.isUserLogged()
+    }
+
     suspend fun saveEmail(email: String) {
         preferences.saveEmail(email)
     }

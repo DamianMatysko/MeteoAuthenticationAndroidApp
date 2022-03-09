@@ -54,9 +54,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
-                        viewModel.saveToken(
-                            it.value.jwt
-                        )
+//                        viewModel.saveToken(
+//                            it.value.jwt
+//                        )
+           viewModel.saveAccessTokens(
+               it.value.jwt,
+               it.value.refreshToken
+           )
                         viewModel.saveEmail(
                             binding.editEmail.text.toString().trim()
                         )
@@ -116,6 +120,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 account.idToken?.let { viewModel.oauthSignIn(it) }
             }
             Log.d(TAG, "onCreateView: ${account?.idToken.toString()}")
+
+
+
         }
 
         return view

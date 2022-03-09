@@ -2,6 +2,7 @@ package com.example.meteoauthentication.data.network
 
 import android.content.Context
 import com.example.meteoauthentication.BuildConfig
+import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,7 +14,8 @@ class RemoteDataSource @Inject constructor() {
 
     companion object {
         //private const val BASE_URL = "http://192.168.1.2:9090" todo(dynamic IP problem)
-        private const val BASE_URL = "http://192.168.1.146:9090"
+        //private const val BASE_URL = "http://192.168.1.146:9090"
+        private const val BASE_URL = "http://192.168.1.161:9090"
     }
 
     fun <Api> buildApi(
@@ -21,25 +23,34 @@ class RemoteDataSource @Inject constructor() {
         context: Context
     ): Api {
         val interceptor = TokenInterceptor(context)
+        val authenticator = TokenAuthenticator(context, buildTokenApi())
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getRetrofitClient(interceptor, context))
+            .client(getRetrofitClient(interceptor, authenticator))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(api)
     }
 
-
-    private fun getRetrofitClient(authenticator: Interceptor? = null, context: Context): OkHttpClient {
+    private fun getRetrofitClient(
+        interceptor: Interceptor? = null,
+        authenticator: Authenticator? = null,
+      //  context: Context
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder().also {
                     it.addHeader("Accept", "application/json")
-                }.build())}
+                }.build())
+            }
 
-            .addInterceptor(TokenInterceptor(context))
+            //            .addInterceptor(TokenInterceptor(context))
+            //            .addInterceptor(interceptor)
+            //            .authenticator(authenticator)
+
             .also { client ->
-
+                interceptor?.let { client.addInterceptor(it) }
+                authenticator?.let { client.authenticator(it) }
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -47,4 +58,14 @@ class RemoteDataSource @Inject constructor() {
                 }
             }.build()
     }
+
+    private fun buildTokenApi(): TokenRefreshApi {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(getRetrofitClient())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(TokenRefreshApi::class.java)
+    }
+
 }

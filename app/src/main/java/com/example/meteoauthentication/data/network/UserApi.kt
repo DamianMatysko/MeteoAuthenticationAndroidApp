@@ -9,7 +9,7 @@ interface UserApi : BaseApi {
     @GET("/api/stations/byUser")
     suspend fun getUserStations():ArrayList<GetUserStationResponse>
     @GET("/api/authentication/authenticate-station/{id}")
-    suspend fun getStationToken(@Path("id") id: Number) : Token
+    suspend fun getStationToken(@Path("id") id: Number) : Authorization
     @GET("api/users/{email}")
     suspend fun getUser(@Path("email") email: String): User
     @GET("/api/measured_values/by-station/{id}")
