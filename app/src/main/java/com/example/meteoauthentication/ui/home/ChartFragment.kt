@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.meteoauthentication.R
@@ -26,12 +27,12 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 private const val TAG = "GrafFragment"
 
 @AndroidEntryPoint
-class GrafFragment : Fragment(R.layout.fragment_graf) {
+class ChartFragment : Fragment(R.layout.fragment_graf) {
     private lateinit var binding: FragmentGrafBinding
     private val viewModel by viewModels<HomeViewModel>()
     private var arrayList: ArrayList<MeasuredValue> = arrayListOf()
@@ -59,6 +60,9 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         //   hide grid lines
         lineChart.axisLeft.setDrawGridLines(false)
         val xAxis: XAxis = lineChart.xAxis
+
+
+
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
         //remove right y-axis
@@ -67,6 +71,7 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         lineChart.legend.isEnabled = false
         //remove description label
         lineChart.description.isEnabled = false
+        // lineChart.
         //add animation
         lineChart.animateX(1000, Easing.EaseInSine)
         // to draw label on xAxis
@@ -75,6 +80,8 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         xAxis.setDrawLabels(true)
         xAxis.granularity = 1f
         //xAxis.labelRotationAngle = +90f
+
+
     }
 
     inner class MyAxisFormatter : IndexAxisValueFormatter() {
@@ -90,22 +97,6 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
         }
     }
 
-    private fun setDataToLineChart(arrayList: ArrayList<MeasuredValue>) {
-        //now draw bar chart with dynamic data
-        val entries: ArrayList<Entry> = ArrayList()
-
-        //you can replace this data object with  your custom object
-        for (i in arrayList.indices) {
-            val measuredValue = arrayList[i]
-            entries.add(Entry(i.toFloat(), measuredValue.humidity.toFloat()))
-        }
-
-        val lineDataSet = LineDataSet(entries, "")
-        val data = LineData(lineDataSet)
-        lineChart.data = data
-        lineChart.invalidate()
-    }
-
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.N)
     fun formatDate(time: String): String {
@@ -117,7 +108,7 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
     }
 
     private fun onSpinnerSelected(arrayList: ArrayList<MeasuredValue>) {
-        val spinner: Spinner = binding.grafSpinner
+        val spinner: Spinner = binding.chartSpinner
         val nameOfMeasuredValue = ArrayList<String>()
         nameOfMeasuredValue.add("humidity")
         nameOfMeasuredValue.add("temperature")
@@ -157,6 +148,12 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
                                 entries.add(Entry(i.toFloat(), measuredValue.humidity.toFloat()))
                             }
                         }
+                        1 -> {
+                            for (i in arrayList.indices) {
+                                val measuredValue = arrayList[i]
+                                entries.add(Entry(i.toFloat(), measuredValue.temperature.toFloat()))
+                            }
+                        }
                         2 -> {
                             for (i in arrayList.indices) {
                                 val measuredValue = arrayList[i]
@@ -194,8 +191,15 @@ class GrafFragment : Fragment(R.layout.fragment_graf) {
 
 
                     val lineDataSet = LineDataSet(entries, "")
+                    val purple = ContextCompat.getColor(context!!, R.color.purple_500)
+                    val pink = ContextCompat.getColor(context!!, R.color.purple_200)
+                    lineDataSet.color = purple
+                    lineDataSet.setCircleColor(pink)
+                    lineDataSet.circleHoleColor = pink
+
                     val data = LineData(lineDataSet)
                     lineChart.data = data
+                    lineChart.data.setDrawValues(false)
                     lineChart.invalidate()
                 }
 

@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeActivity">
 
-
-
     <fragment
         android:id="@+id/homeFragmentsContainer"
         android:name="androidx.navigation.fragment.NavHostFragment"

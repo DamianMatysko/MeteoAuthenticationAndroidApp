@@ -1,15 +1,17 @@
 package com.example.meteoauthentication.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
+
+private const val TAG = "RegisterFragment"
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -32,16 +34,26 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             register()
         }
 
-        viewModel.registerResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.registerResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                     val transaction = fragmentManager?.beginTransaction()
                     transaction?.replace(R.id.activityFragmentContainer, loginFragment)?.commit()
                 }
-                is Resource.Failure -> println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyFailure ${it}")
+                is Resource.Failure -> {
+                    Log.d(TAG, "onViewCreated: Failure $it")
+                    if (it.errorCode == 401) {
+                        Toast.makeText(context, "Failure please check form", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(context, "Error: ${it.errorCode}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                else -> {}
             }
-        })
+        }
     }
 
     private fun register() {

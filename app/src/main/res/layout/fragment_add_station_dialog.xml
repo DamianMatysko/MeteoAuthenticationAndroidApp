@@ -7,14 +7,15 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="61dp">
 
-
     <EditText
         android:id="@+id/editTitle"
         android:layout_width="370dp"
         android:layout_height="60dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:hint="Title"
+        android:autofillHints=""
+        android:hint="@string/title"
+        android:inputType="text"
         android:textAlignment="center"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +29,9 @@
         android:layout_height="60dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:hint="Destination"
+        android:autofillHints=""
+        android:hint="@string/destination"
+        android:inputType="text"
         android:textAlignment="center"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +44,8 @@
         android:layout_height="60dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:hint="Phone"
+        android:autofillHints=""
+        android:hint="@string/phone"
         android:inputType="phone"
         android:textAlignment="center"
         android:textSize="26sp"
@@ -55,7 +59,9 @@
         android:layout_height="120dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:hint="Description"
+        android:autofillHints=""
+        android:hint="@string/description"
+        android:inputType="text"
         android:textAlignment="center"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/update_user"
+        android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editModelDescription" />
 

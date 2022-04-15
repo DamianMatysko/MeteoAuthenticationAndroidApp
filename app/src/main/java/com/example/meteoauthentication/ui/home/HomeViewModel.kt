@@ -57,7 +57,6 @@ class HomeViewModel @Inject constructor(
         newEmail: String,
         newCity: String
     ) = viewModelScope.launch {
-        //  val resolute = repository.updateUser(newUsername, newPassword, newEmail, newCity)
         _updateResponse.value = Resource.Loading
         _updateResponse.value = repository.updateUser(newUsername, newPassword, newEmail, newCity)
     }

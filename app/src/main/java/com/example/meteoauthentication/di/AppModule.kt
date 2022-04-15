@@ -34,28 +34,9 @@ object AppModule {
         return remoteDataSource.buildApi(UserApi::class.java, context)
     }
 
-
-//    @Singleton
-//    @Provides
-//    fun provideViewPagerAdapter(
-//        fragment: Fragment
-//    ): ViewPagerAdapter {
-//        return ViewPagerAdapter(fragment)
-//    }
-
-
-//    @Provides
-//    @ActivityScoped
-//    fun provideViewPagerAdapter(@ActivityContext fragment: Fragment): ViewPagerAdapter {
-//        return ViewPagerAdapter(fragment)
-//    }
-
-
     @Singleton
     @Provides
     fun provideCommunicator(): Communicator {
         return Communicator()
     }
-
-
 }

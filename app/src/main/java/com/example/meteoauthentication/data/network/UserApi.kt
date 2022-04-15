@@ -18,5 +18,4 @@ interface UserApi : BaseApi {
     suspend fun addStation(@Body addStationRequest: AddStationRequest): GetUserStationResponse
     @DELETE("/api/stations/{id}")
     suspend fun deleteStation(@Path("id") id:Number): Any
-
 }

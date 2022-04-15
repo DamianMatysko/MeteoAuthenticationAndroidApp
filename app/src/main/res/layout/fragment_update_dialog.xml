@@ -19,7 +19,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/username"/>
+        android:hint="@string/username"
+        android:autofillHints=""
+        android:inputType="text" />
 
 
     <EditText
@@ -33,7 +35,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUsername"
-        android:hint="@string/password"/>
+        android:hint="@string/password"
+        android:autofillHints=""
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/editCity"
@@ -46,7 +50,9 @@
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editPassword"
+        android:autofillHints=""
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editEmail"
@@ -59,7 +65,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCity"
-        android:hint="@string/email"/>
+        android:hint="@string/email"
+        android:autofillHints=""
+        android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/buttonUpdateUser"

@@ -9,7 +9,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.UserPreferences
-import com.example.meteoauthentication.model.GetUserStationResponse
 import com.example.meteoauthentication.ui.auth.AuthActivity
 import com.example.meteoauthentication.ui.startNewActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val bottomNavigationView = findViewById<BottomNavigationView
-                >(R.id.navbar) // todo(changed name incorrectly)
+                >(R.id.navbar)
         val navController = findNavController(R.id.homeFragmentsContainer)
         bottomNavigationView.setupWithNavController(navController)
 
@@ -42,7 +41,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
     fun performLogout() = lifecycleScope.launch {
-      //  viewModel.logout() todo(I don't have any logout api)
         userPreferences.clear()
         startNewActivity(AuthActivity::class.java)
     }

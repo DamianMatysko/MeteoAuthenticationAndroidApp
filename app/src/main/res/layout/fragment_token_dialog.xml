@@ -8,7 +8,7 @@
         android:id="@+id/tokenTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bearer token"
+        android:text="@string/bearer_token"
         android:textSize="26sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -19,8 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
 
-private const val TAG = "StationDetailFragment"
-
 @AndroidEntryPoint
 class StationDetailFragment : Fragment(R.layout.fragment_station_detail) {
     private lateinit var binding: FragmentStationDetailBinding
@@ -42,6 +40,7 @@ class StationDetailFragment : Fragment(R.layout.fragment_station_detail) {
                         dialog.show(parentFragmentManager, "tokenDialog")
                     }
                 }
+                else -> {}
             }
         }
         return view
@@ -71,12 +70,12 @@ class StationDetailFragment : Fragment(R.layout.fragment_station_detail) {
             val builder = AlertDialog.Builder(context)
             builder.setMessage("Are you sure you want to Delete?")
                 .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
+                .setPositiveButton("Yes") { dialog, _ ->
                     deleteStation(this.id)
                     dialog.dismiss()
                     parentFragmentManager.popBackStack()
                 }
-                .setNegativeButton("No") { dialog, id ->
+                .setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
                 }
             val alert = builder.create()

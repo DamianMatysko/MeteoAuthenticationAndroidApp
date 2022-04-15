@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -24,7 +23,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-private const val TAG = "ExploreFragment"
 
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.fragment_explore) {
@@ -33,7 +31,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
     private lateinit var viewPager: ViewPager2
     private val viewModel by viewModels<HomeViewModel>()
     private val listFragment = ListFragment()
-    private val grafFragment = GrafFragment()
+    private val chartFragment = ChartFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,8 +54,9 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
             when (it) {
                 is Resource.Success -> {
                     listFragment.setStationMeasuredValues(it.value)
-                    grafFragment.setStationMeasuredValues(it.value)
+                    chartFragment.setStationMeasuredValues(it.value)
                 }
+                else -> {}
             }
         }
 
@@ -115,18 +114,11 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
     private fun initView() {
         viewPager = binding.viewPager
         setupViewPager(viewPager)
-        //binding.tabLayout.setupWithViewPager(binding.viewPager);
         TabLayoutMediator(
             binding.tabLayout, binding.viewPager
         ) { tab: TabLayout.Tab, position: Int ->
             tab.text = viewPagerAdapter.mFragmentTitleList[position]
         }.attach()
-//        for (i in 0 until binding.tabLayout.tabCount) {
-//            val tv = LayoutInflater.from(activity)
-//                .inflate(R.layout.custom_tab, null) as TextView
-//            binding.tabLayout.getTabAt(i)!!.customView = tv
-//        }
-
     }
 
     private fun setupViewPager(viewPager: ViewPager2) {
@@ -135,7 +127,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
             requireActivity().lifecycle
         )
         viewPagerAdapter.addFragment(listFragment, "list")
-        viewPagerAdapter.addFragment(grafFragment, "graf")
+        viewPagerAdapter.addFragment(chartFragment, "chart")
         viewPager.adapter = viewPagerAdapter
         viewPager.offscreenPageLimit = 1
     }
@@ -159,4 +151,3 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
         }
     }
 }
-

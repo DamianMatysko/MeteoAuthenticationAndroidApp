@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.databinding.FragmentAddStationDialogBinding
-import com.example.meteoauthentication.databinding.FragmentUpdateDialogBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +25,9 @@ class AddStationDialogFragment : DialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_station_dialog, container, false)
         binding = FragmentAddStationDialogBinding.bind(view)
-        viewModel.addStationResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.addStationResponse.observe(
+            viewLifecycleOwner
+        ) {
             when (it) {
                 is Resource.Success -> {
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
@@ -36,9 +36,9 @@ class AddStationDialogFragment : DialogFragment() {
                 is Resource.Failure -> {
                     Toast.makeText(context, "Failure", Toast.LENGTH_SHORT).show()
                 }
+                else -> {}
             }
         }
-        )
         return view
     }
 
@@ -65,7 +65,6 @@ class AddStationDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private const val TAG = "AddStationDialogFragment"
         fun newInstance(): AddStationDialogFragment = AddStationDialogFragment().apply {
             arguments = Bundle().apply {
 

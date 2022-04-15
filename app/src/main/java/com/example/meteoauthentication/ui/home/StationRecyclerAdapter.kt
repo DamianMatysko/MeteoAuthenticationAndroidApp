@@ -1,5 +1,6 @@
 package com.example.meteoauthentication.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class StationRecyclerAdapter(
         return arrayList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList:ArrayList<GetUserStationResponse>) {
         arrayList.clear()
         arrayList.addAll(newList)
@@ -41,7 +43,7 @@ class StationRecyclerAdapter(
     inner class StationViewHolder(binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        val stationName: TextView = binding.stationName //itemView.findViewById(R.id.stationName)
+        val stationName: TextView = binding.stationName
 
         init {
             binding.root.setOnClickListener(this)

@@ -5,11 +5,10 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.GrafFragment"
-    android:background="@color/grey">
+    tools:context=".ui.home.ChartFragment">
 
     <Spinner
-        android:id="@+id/grafSpinner"
+        android:id="@+id/chartSpinner"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -28,6 +27,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grafSpinner" />
+        app:layout_constraintTop_toBottomOf="@+id/chartSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

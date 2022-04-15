@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +16,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class TokenDialogFragment : DialogFragment() {
     private lateinit var token1: String
     private lateinit var binding: FragmentTokenDialogBinding
-    private val TAG = "TokenDialogFragment"
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view: View = inflater.inflate(R.layout.fragment_token_dialog, container, false)
         binding = FragmentTokenDialogBinding.bind(view)
         binding.tokenTextView.text = token1
@@ -35,9 +34,7 @@ class TokenDialogFragment : DialogFragment() {
             val clipData = ClipData.newPlainText("text", token1)
             myClipboard.setPrimaryClip(clipData)
         }
-        Log.d(TAG, "onCreateView: $token1")
         return view
-
     }
 
     companion object {
@@ -50,6 +47,5 @@ class TokenDialogFragment : DialogFragment() {
             }
         }
     }
-
 
 }

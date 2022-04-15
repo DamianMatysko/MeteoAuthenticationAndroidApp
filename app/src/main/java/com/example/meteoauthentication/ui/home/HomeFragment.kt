@@ -1,11 +1,13 @@
 package com.example.meteoauthentication.ui.home
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -42,6 +44,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), PostClickHandler {
         getUserStations()
         initRecyclerView(view)
 
+
+        val purple = context?.let { ContextCompat.getColor(it,R.color.purple_500) }
+        binding.AddButton.backgroundTintList = purple?.let { ColorStateList.valueOf(it) }
+
         binding.AddButton.setOnClickListener{
             val dialog = AddStationDialogFragment.newInstance()
             dialog.show(parentFragmentManager, "addStationDialog")
@@ -77,11 +83,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), PostClickHandler {
         }
         viewModel.getUserStations()
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        binding = FragmentHomeBinding.bind(view)
-//    }
 
     override fun clickedPostItem(getUserStationResponse: GetUserStationResponse) {
         viewModel.setSelectedUserStation(getUserStationResponse)

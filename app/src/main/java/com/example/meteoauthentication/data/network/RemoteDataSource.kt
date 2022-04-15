@@ -13,9 +13,8 @@ import javax.inject.Inject
 class RemoteDataSource @Inject constructor() {
 
     companion object {
-        //private const val BASE_URL = "http://192.168.1.2:9090" todo(dynamic IP problem)
-        //private const val BASE_URL = "http://192.168.1.146:9090"
-        private const val BASE_URL = "http://192.168.1.161:9090"
+        //private const val BASE_URL = "http://192.168.1.161:9090"
+        private const val BASE_URL = "https://meteoauth.tk"
     }
 
     fun <Api> buildApi(
@@ -35,7 +34,6 @@ class RemoteDataSource @Inject constructor() {
     private fun getRetrofitClient(
         interceptor: Interceptor? = null,
         authenticator: Authenticator? = null,
-      //  context: Context
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->

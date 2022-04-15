@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.meteoauthentication.R
 import com.example.meteoauthentication.data.network.Resource
 import com.example.meteoauthentication.databinding.FragmentProfileBinding
-import com.example.meteoauthentication.model.User
 import com.example.meteoauthentication.ui.logout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +35,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         binding.city.text = it.value.city
                     }
                 }
+                else -> {}
             }
         }
         return view

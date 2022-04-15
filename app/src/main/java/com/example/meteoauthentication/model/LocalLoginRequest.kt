@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.util.*
 
-// todo change file name
 data class LocalLoginRequest(
     val username: String,
     val password: String
@@ -18,16 +17,14 @@ data class LocalRegisterRequest(
     val email: String
 )
 
-//todo(move to responses)
-
-data class  RefreshTokenRequest(
+data class RefreshTokenRequest(
     val jwt: String?
 )
 
 data class Authorization(
     val jwt: String,
     val refreshToken: String
-    )
+)
 
 data class UserUpdate(
     val username: String,
@@ -49,7 +46,9 @@ data class MeasuredValue(
 ) {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun toString(): String =
-        "Measurement time: ${formatDate(measurement_time)}, Humidity: $humidity, Temperature: $temperature, Air quality: $air_quality, Wind speed: $wind_speed, Wind gusts: $wind_gusts, Wind direction: $wind_direction, Rainfall: $rainfall"
+        "Measurement time: ${formatDate(measurement_time)}, Humidity: $humidity, " +
+                "Temperature: $temperature, Air quality: $air_quality, Wind speed: $wind_speed, " +
+                "Wind gusts: $wind_gusts, Wind direction: $wind_direction, Rainfall: $rainfall"
 }
 
 data class GetUserStationResponse(

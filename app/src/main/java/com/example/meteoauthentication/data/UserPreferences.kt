@@ -6,7 +6,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.asLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -49,12 +48,6 @@ class UserPreferences @Inject constructor(@ApplicationContext context: Context) 
             preferences[JWT_TOKEN] = access_token
             preferences[REFRESH_TOKEN] = refresh_token
             Log.d(TAG, "saveAccessTokens: $refresh_token")
-        }
-    }
-
-    suspend fun saveToken(token: String) { //todo delete
-        appContext.dataStore.edit { preferences ->
-            preferences[JWT_TOKEN] = token
         }
     }
 

@@ -12,7 +12,7 @@ interface AuthApi : BaseApi {
     suspend fun login(@Body localLoginRequest: LocalLoginRequest): Authorization
 
     @POST("api/authentication/register")
-    suspend fun register(@Body localLoginRequest: LocalRegisterRequest):String //todo(change string)
+    suspend fun register(@Body localLoginRequest: LocalRegisterRequest):String
 
     @POST("oauth2/authorization/google")
     suspend fun oauthSignIn(@Body string: String): Authorization

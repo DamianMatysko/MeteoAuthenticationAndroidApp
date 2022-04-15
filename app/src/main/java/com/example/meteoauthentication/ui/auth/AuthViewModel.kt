@@ -24,8 +24,8 @@ class AuthViewModel @Inject constructor(
     val oauthSignInResponse: LiveData<Resource<Authorization>>
         get() = _oauthSignInResponse
 
-    private val _registerResponse: MutableLiveData<Resource<Authorization>> = MutableLiveData()
-    val registerResponse: LiveData<Resource<Authorization>>
+    private val _registerResponse: MutableLiveData<Resource<String>> = MutableLiveData()
+    val registerResponse: LiveData<Resource<String>>
         get() = _registerResponse
 
 
@@ -42,18 +42,9 @@ class AuthViewModel @Inject constructor(
         _oauthSignInResponse.value = repository.oauthSignIn(code)
     }
 
-    suspend fun saveToken(token: String) {
-        repository.saveToken(token)
-    }
-
     suspend fun saveAccessTokens(access_token: String, refresh_token: String) {
         repository.saveAccessTokens(access_token, refresh_token)
     }
-
-
-//    suspend fun saveRefreshToken(token: String) {
-//        repository.saveRefreshToken(token)
-//    }
 
     suspend fun saveEmail(email: String) {
         repository.saveEmail(email)
@@ -63,14 +54,13 @@ class AuthViewModel @Inject constructor(
         return repository.isUserLogged()
     }
 
-
     fun register(
         username: String,
         password: String,
         email: String
     ) = viewModelScope.launch {
         _registerResponse.value = Resource.Loading
-        repository.register(username, password, email)
+        _registerResponse.value =  repository.register(username, password, email)
     }
 
 }

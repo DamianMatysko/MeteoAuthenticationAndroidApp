@@ -1,10 +1,12 @@
 package com.example.meteoauthentication.ui.home
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.meteoauthentication.databinding.MeasuredValueItemBinding
 import com.example.meteoauthentication.model.MeasuredValue
@@ -24,6 +26,7 @@ class MeasuredValuesRecyclerAdapter(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: MeasuredValuesViewHolder, position: Int) {
         val currentItem = arrayList[position]
         holder.measuredValues.text = currentItem.toString()
@@ -43,7 +46,7 @@ class MeasuredValuesRecyclerAdapter(
     inner class MeasuredValuesViewHolder(binding: MeasuredValueItemBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        val measuredValues: TextView = binding.measuredValuesTextView //todo change to id or delete on click
+        val measuredValues: TextView = binding.measuredValuesTextView
 
         init {
             binding.root.setOnClickListener(this)

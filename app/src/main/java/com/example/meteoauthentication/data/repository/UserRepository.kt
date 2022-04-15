@@ -13,7 +13,6 @@ class UserRepository @Inject constructor(
     private val api: UserApi,
     @ApplicationContext context: Context
 ) : BaseRepository(api) {
-
     private val appContext = context.applicationContext
     private val userPreferences = UserPreferences(appContext)
 
